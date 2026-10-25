@@ -2,9 +2,9 @@
 
 A Monday.com workflow for managing a commercial real estate acquisition, built to keep every task owned, every deadline visible, and every delay flagged before it becomes a problem.
 
-**Built by:** Camila Carrasquilla · 2026
-**Tool:** Monday.com (Work Management, Pro features)
-**Deal (fictional):** Pepper & Pine Logistics Park, a $6.4M industrial property
+- **Built by:** Camila Carrasquilla · 2026
+- **Tool:** Monday.com (Work Management, Pro features)
+- **Deal (fictional):** Pepper & Pine Logistics Park, a $6.4M industrial property
 
 ![Board overview](screenshots/01-board.png)
 
@@ -53,8 +53,6 @@ Ten dependency links map what blocks what. For example:
 - Closing tasks run in sequence: settlement statement → wire funds → sign and record.
 
 **Design decision: dependency mode set to "No action."** Monday can automatically shift dates when a predecessor moves. I turned that off on purpose: in an acquisition, many deadlines are set by the purchase agreement, so the system should flag delays, not silently move dates.
-
-![Dependencies](screenshots/02-dependencies.png)
 
 ---
 
