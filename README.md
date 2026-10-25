@@ -71,7 +71,8 @@ Each notification includes the task name, the responsible party, the due date, a
 The "Status is not Done" condition prevents noise: no one gets reminded about work that's already finished.
 
 ![Automations](screenshots/03-automations.png)
-![Stuck alert notification](screenshots/04-stuck-alert.png)
+
+<img src="screenshots/04-stuck-alert.png" alt="Stuck alert notification" width="500">
 
 ---
 
