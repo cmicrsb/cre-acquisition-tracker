@@ -1,0 +1,34 @@
+Pepper & Pine Logistics Park - Acquisition,,,,,
+LOI,,,,,
+Name,Internal Owner,Status,Due Date,Responsible Party,Depends On
+Submit LOI to seller’s broker,Camila Carrasquilla,Done,2026-10-13,Broker,
+Negotiate LOI terms,Camila Carrasquilla,Done,2026-10-17,Internal Team,
+Execute Purchase & Sale Agreement (PSA),Camila Carrasquilla,In Progress,2026-10-22,Attorney,
+Deposit earnest money into escrow,Camila Carrasquilla,Not Started,2026-10-29,Title Company,Execute Purchase & Sale Agreement (PSA)
+,,,2026-10-13 to 2026-10-29,,
+,,,,,
+Due Diligence,,,,,
+Name,Internal Owner,Status,Due Date,Responsible Party,Depends On
+Order Phase I Environmental Site Assessment,Camila Carrasquilla,Not Started,2026-11-02,Internal Team,
+Order property condition assessment,Camila Carrasquilla,Not Started,2026-11-02,Internal Team,
+Order title commitment,Camila Carrasquilla,Not Started,2026-11-04,Title Company,Execute Purchase & Sale Agreement (PSA)
+Order ALTA survey,Camila Carrasquilla,Not Started,2026-11-06,Title Company,
+Review leases & tenant estoppels,Camila Carrasquilla,Not Started,2026-11-13,Attorney,
+"Review title & survey, send objection letter",Camila Carrasquilla,Not Started,2026-11-16,Attorney,"Order ALTA survey, Order title commitment"
+Due diligence go/no-go decision,Camila Carrasquilla,Not Started,2026-11-27,Internal Team,"Review leases & tenant estoppels, Review title & survey, send objection letter"
+,,,2026-11-02 to 2026-11-27,,
+,,,,,
+Financing,,,,,
+Name,Internal Owner,Status,Due Date,Responsible Party,Depends On
+Submit loan application & financials,Camila Carrasquilla,In Progress,2026-11-03,Lender,
+Order appraisal,Camila Carrasquilla,Not Started,2026-11-10,Lender,Submit loan application & financials
+Receive loan commitment letter,Camila Carrasquilla,Not Started,2026-12-04,Lender,Order appraisal
+Review loan documents,Camila Carrasquilla,Not Started,2026-12-11,Attorney,Receive loan commitment letter
+,,,2026-11-03 to 2026-12-11,,
+,,,,,
+Closing,,,,,
+Name,Internal Owner,Status,Due Date,Responsible Party,Depends On
+Review settlement statement,Camila Carrasquilla,Not Started,2026-12-15,Title Company,Review loan documents
+Wire closing funds to escrow,Camila Carrasquilla,Not Started,2026-12-17,Internal Team,Review settlement statement
+Sign closing documents & record deed,Camila Carrasquilla,Not Started,2026-12-18,Title Company,Wire closing funds to escrow
+,,,2026-12-15 to 2026-12-18,,
