@@ -37,3 +37,13 @@ print(len(task_info))
 # print(task_info["deadline"])
 print(task_info.get("deadline"))
 print(task_info.get("deadline", "No deadline set"))
+
+# NOTES — Dictionaries
+# A dictionary stores keys and their values.
+# I read a value with task_info["key"].
+# If the key already exists, = changes its value. If it doesn't exist, = adds it.
+# len() on a dictionary counts how many keys it has.
+# KeyError means the key is not in the dictionary.
+# .get() is safer because instead of crashing, Python returns a default value
+#   (the message I wrote as an alternative), or None if I didn't write one.
+# Python only knows what I wrote in the code, nothing else.
