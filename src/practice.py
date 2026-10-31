@@ -47,3 +47,15 @@ print(task_info.get("deadline", "No deadline set"))
 # .get() is safer because instead of crashing, Python returns a default value
 #   (the message I wrote as an alternative), or None if I didn't write one.
 # Python only knows what I wrote in the code, nothing else.
+
+# CSA-9 Session 3 — for loops, if, functions — timebox: 90 min — start 8:55pm
+
+tasks = [
+    {"name": "Order ALTA survey", "phase": "Due Diligence", "status": "Working on it"},
+    {"name": "Review loan documents", "phase": "Financing", "status": "Not Started"},
+    {"name": "Wire closing funds to escrow", "phase": "Closing", "status": "Not Started"},
+]
+
+for row in tasks:
+    if row["status"] == "Working on it":
+        print(row["name"])
