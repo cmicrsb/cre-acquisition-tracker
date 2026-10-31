@@ -59,3 +59,19 @@ tasks = [
 for row in tasks:
     if row["status"] == "Working on it":
         print(row["name"])
+
+def print_tasks_by_status(status):
+    for row in tasks:
+        if row["status"] == status:
+            print(row["name"])
+
+print_tasks_by_status("Working on it")
+print_tasks_by_status("Not Started")
+
+# NOTES — for loops, if, functions
+# A for loop repeats the same code for each item in a list, without having to write it again.
+# Indentation matters after a line that ends with ":" — 4 spaces tell Python that line is inside the block.
+# == asks "is it equal to?" / = assigns a value.
+# IndentationError means a line that should be indented isn't, so Python finds an empty block after the "for".
+# def creates a function but doesn't run it. It only runs when you call it.
+# A parameter is an empty slot that gets filled when you call the function.
