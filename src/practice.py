@@ -75,3 +75,18 @@ print_tasks_by_status("Not Started")
 # IndentationError means a line that should be indented isn't, so Python finds an empty block after the "for".
 # def creates a function but doesn't run it. It only runs when you call it.
 # A parameter is an empty slot that gets filled when you call the function.
+
+# CSA-9 Session 4 — import + solo exercise — timebox: 45 min — start 10:25pm
+
+import datetime
+
+today = datetime.date.today()
+print(today)
+
+def print_tasks_by_phase(phase):
+    for row in tasks:
+        if row["phase"] == phase:
+            print(row["name"])
+
+print_tasks_by_phase("LOI")
+print_tasks_by_phase("Due Diligence")
