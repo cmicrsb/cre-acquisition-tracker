@@ -90,3 +90,15 @@ def print_tasks_by_phase(phase):
 
 print_tasks_by_phase("LOI")
 print_tasks_by_phase("Due Diligence")
+
+import csv
+
+line = '"Review title & survey, send objection letter",Title Company,Working on it'
+
+# Option 1: split
+parts = line.split(",")
+print(len(parts), parts)
+
+# Option 2: csv.reader
+row = next(csv.reader([line]))
+print(len(row), row)
