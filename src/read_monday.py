@@ -1,6 +1,7 @@
 import csv
 
 PHASES = ["LOI", "Due Diligence", "Financing", "Closing"]
+VALID_STATUSES = ["Done", "In Progress", "Not Started"]
 
 tasks = []
 current_phase = None
@@ -23,12 +24,14 @@ with open("data/monday_export.csv", newline="", encoding="utf-8-sig") as f:
         task = {
             "name": row[0],
             "owner": row[1],
-            "status": row[2],
+            "status": row[2].strip(),
             "due_date": row[3],
             "party": row[4],
-            "depends_on": row[5],
+            "depends_on": row[5],   
             "phase": current_phase,
         }
+        if task["status"] not in VALID_STATUSES:
+                        print("Warning: unknown status", task["status"], "in", task["name"])
         tasks.append(task)
 
 print(len(tasks), "tasks")
