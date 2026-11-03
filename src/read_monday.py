@@ -1,4 +1,5 @@
 import csv
+from datetime import date
 
 PHASES = ["LOI", "Due Diligence", "Financing", "Closing"]
 VALID_STATUSES = ["Done", "In Progress", "Not Started"]
@@ -21,11 +22,16 @@ with open("data/monday_export.csv", newline="", encoding="utf-8-sig") as f:
             continue
 
         # Rule 3: it's a task -> save it with its phase
+        due_text = row[3].strip()
+        if due_text == "":
+            due_date = None
+        else:
+            due_date = date.fromisoformat(due_text)
         task = {
             "name": row[0],
             "owner": row[1],
             "status": row[2].strip(),
-            "due_date": row[3],
+            "due_date": due_date,
             "party": row[4],
             "depends_on": row[5],   
             "phase": current_phase,
