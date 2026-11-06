@@ -56,4 +56,4 @@ for phase in PHASES:
         percent = 0
     else:
         percent = round(done / total * 100)
-    print(phase + ":", done, "of", total, "-", percent, "%")
+    print(f"{phase}: {done} of {total} - {percent}%")
