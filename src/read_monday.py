@@ -43,3 +43,17 @@ with open("data/monday_export.csv", newline="", encoding="utf-8-sig") as f:
 print(len(tasks), "tasks")
 for task in tasks:
     print(task["phase"], "|", task["name"])
+
+for phase in PHASES:
+    total = 0
+    done = 0
+    for task in tasks:
+        if task["phase"] == phase:
+            total = total + 1
+            if task["status"] == "Done":
+                done = done + 1
+    if total == 0:
+        percent = 0
+    else:
+        percent = round(done / total * 100)
+    print(phase + ":", done, "of", total, "-", percent, "%")

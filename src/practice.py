@@ -102,3 +102,19 @@ print(len(parts), parts)
 # Option 2: csv.reader
 row = next(csv.reader([line]))
 print(len(row), row)
+
+from read_monday import tasks, PHASES
+
+for phase in PHASES:
+    total = 0
+    done = 0
+    for task in tasks:
+        if task["phase"] == phase:
+            total = total + 1
+            if task["status"] == "Done":
+                done = done + 1
+    if total == 0:
+        percent = 0
+    else:
+        percent = round(done / total * 100)
+    print(phase + ":", done, "of", total, "-", percent, "%")
