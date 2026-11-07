@@ -1,5 +1,5 @@
 import csv
-from datetime import date
+from datetime import date, timedelta
 
 PHASES = ["LOI", "Due Diligence", "Financing", "Closing"]
 VALID_STATUSES = ["Done", "In Progress", "Not Started"]
@@ -65,3 +65,14 @@ for task in tasks:
     if task["due_date"] is not None and task["due_date"] < today and task["status"] != "Done":
         days_late = (today - task["due_date"]).days
         print(f"- {task['name']} | {task['party']} | {days_late} days late")
+
+# CSA-14 Upcoming tasks (next 7 days) ---
+today = date.today()
+limit = today + timedelta(days=7)
+
+print("\nUpcoming tasks (next 7 days):")
+for task in tasks:
+    due = task["due_date"]
+    if due is not None and today <= due <= limit and task["status"] != "Done":
+        days_left = (due - today).days
+        print(f"- {task['name']} | {task['party']} | {days_left} days left")
