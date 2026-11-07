@@ -57,3 +57,11 @@ for phase in PHASES:
     else:
         percent = round(done / total * 100)
     print(f"{phase}: {done} of {total} - {percent}%")
+
+# CSA-12: overdue tasks
+today = date.today()
+print("\nOverdue tasks:")
+for task in tasks:
+    if task["due_date"] is not None and task["due_date"] < today and task["status"] != "Done":
+        days_late = (today - task["due_date"]).days
+        print(f"- {task['name']} | {task['party']} | {days_late} days late")
