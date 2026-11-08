@@ -43,13 +43,7 @@ def load_tasks():
 
     return tasks
 
-
-tasks = load_tasks()
-
-print(len(tasks), "tasks")
-for task in tasks:
-    print(task["phase"], "|", task["name"])
-
+# CSA-13: progress by phase
 def progress_by_phase(tasks):
     progress = []
     for phase in PHASES:
@@ -67,10 +61,6 @@ def progress_by_phase(tasks):
         progress.append({"phase": phase, "done": done, "total": total, "percent": percent})
     return progress
 
-
-for p in progress_by_phase(tasks):
-    print(f"{p['phase']}: {p['done']} of {p['total']} - {p['percent']}%")
-
 # CSA-12: overdue tasks
 def overdue_tasks(tasks):
     today = date.today()
@@ -80,12 +70,6 @@ def overdue_tasks(tasks):
             days_late = (today - task["due_date"]).days
             overdue.append({"name": task["name"], "party": task["party"], "days_late": days_late})
     return overdue
-
-
-print("\nOverdue tasks:")
-for t in overdue_tasks(tasks):
-    print(f"- {t['name']} | {t['party']} | {t['days_late']} days late")
-
 
 # CSA-14: upcoming tasks (next 7 days)
 def upcoming_tasks(tasks):
@@ -99,7 +83,20 @@ def upcoming_tasks(tasks):
             upcoming.append({"name": task["name"], "party": task["party"], "days_left": days_left})
     return upcoming
 
+if __name__ == "__main__":
+    tasks = load_tasks()
 
-print("\nUpcoming tasks (next 7 days):")
-for t in upcoming_tasks(tasks):
-    print(f"- {t['name']} | {t['party']} | {t['days_left']} days left")
+    print(len(tasks), "tasks")
+    for task in tasks:
+        print(task["phase"], "|", task["name"])
+
+    for p in progress_by_phase(tasks):
+        print(f"{p['phase']}: {p['done']} of {p['total']} - {p['percent']}%")
+
+    print("\nOverdue tasks:")
+    for t in overdue_tasks(tasks):
+        print(f"- {t['name']} | {t['party']} | {t['days_late']} days late")
+
+    print("\nUpcoming tasks (next 7 days):")
+    for t in upcoming_tasks(tasks):
+        print(f"- {t['name']} | {t['party']} | {t['days_left']} days left")
