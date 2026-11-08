@@ -1,3 +1,4 @@
+import json
 from read_monday import load_tasks, progress_by_phase, overdue_tasks, upcoming_tasks
 from claude_client import ask_claude
 
@@ -35,10 +36,11 @@ def build_prompt(progress, overdue, upcoming):
 Write the weekly status of an acquisition deal for the COO.
 
 Rules:
-- Use exactly three sections with these headings: Summary, Risks, Next steps.
+- Return ONLY a JSON object with exactly these keys: "summary" (a string), "risks" (a list of strings), "next_steps" (a list of strings).
+- Do not add any text, explanation or code block before or after the JSON.
 - Keep it under 300 words so the COO can read it in 2 minutes.
 - Use only the data below. Do not invent dates, names, numbers or events.
-- Only mention a dependency between tasks if it is listed as "depends on" in the data.
+- Only mention or imply a dependency between tasks if it is listed as "depends on" in the data. Do not say a task is at risk because of another task unless that dependency is listed in the data.
 - If there are no overdue tasks, say so in Risks and focus on upcoming deadlines.
 - Executive tone: clear, direct, no filler.
 
@@ -48,6 +50,28 @@ Deal data:
     return prompt
 
 
+def parse_report(text):
+    try:
+        report = json.loads(text)
+    except json.JSONDecodeError:
+        print("Error: Claude did not return valid JSON.")
+        return None
+    for key in ["summary", "risks", "next_steps"]:
+        if key not in report:
+            print(f"Error: missing key '{key}'.")
+            return None
+
+    if not isinstance(report["summary"], str):
+        print("Error: 'summary' should be a string.")
+        return None
+
+    for key in ["risks", "next_steps"]:
+        if not isinstance(report[key], list):
+            print(f"Error: '{key}' should be a list.")
+            return None
+    return report
+
+
 if __name__ == "__main__":
     tasks = load_tasks()
     prompt = build_prompt(progress_by_phase(tasks), overdue_tasks(tasks), upcoming_tasks(tasks))
@@ -55,4 +79,6 @@ if __name__ == "__main__":
     if status is None:
         print("Could not generate the status. Check the error above.")
     else:
-        print(status)
+        report = parse_report(status)
+        if report is not None:
+            print(json.dumps(report, indent=2))
