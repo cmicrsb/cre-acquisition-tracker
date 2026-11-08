@@ -41,6 +41,7 @@ Rules:
 - Keep it under 300 words so the COO can read it in 2 minutes.
 - Use only the data below. Do not invent dates, names, numbers or events.
 - Only mention or imply a dependency between tasks if it is listed as "depends on" in the data. Do not say a task is at risk because of another task unless that dependency is listed in the data.
+- Do not repeat the same fact in more than one bullet or section, except a short mention in the Summary.
 - If there are no overdue tasks, say so in Risks and focus on upcoming deadlines.
 - Executive tone: clear, direct, no filler.
 
