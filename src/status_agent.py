@@ -11,14 +11,20 @@ def build_prompt(progress, overdue, upcoming):
     lines.append("\nOverdue tasks:")
     if overdue:
         for t in overdue:
-            lines.append(f"- {t['name']} | {t['party']} | {t['days_late']} days late")
+            line = f"- {t['name']} | {t['party']} | {t['days_late']} days late"
+            if t["depends_on"] != "":
+                line = line + f" | depends on: {t['depends_on']}"
+            lines.append(line)
     else:
         lines.append("- None")
 
     lines.append("\nUpcoming tasks (next 7 days):")
     if upcoming:
         for t in upcoming:
-            lines.append(f"- {t['name']} | {t['party']} | {t['days_left']} days left")
+            line = f"- {t['name']} | {t['party']} | {t['days_left']} days left"
+            if t["depends_on"] != "":
+                line = line + f" | depends on: {t['depends_on']}"
+            lines.append(line)
     else:
         lines.append("- None")
 
@@ -32,6 +38,7 @@ Rules:
 - Use exactly three sections with these headings: Summary, Risks, Next steps.
 - Keep it under 300 words so the COO can read it in 2 minutes.
 - Use only the data below. Do not invent dates, names, numbers or events.
+- Only mention a dependency between tasks if it is listed as "depends on" in the data.
 - If there are no overdue tasks, say so in Risks and focus on upcoming deadlines.
 - Executive tone: clear, direct, no filler.
 
