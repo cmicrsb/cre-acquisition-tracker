@@ -21,10 +21,13 @@ def ask_claude(prompt):
     try:
         message = client.messages.create(
             model="claude-haiku-5-5",
-            max_tokens=600,
+            max_tokens=2000,
             messages=[{"role": "user", "content": prompt}],
         )
-        return message.content[0].text
+        for block in message.content:
+            if block.type == "text":
+                return block.text
+        return None
     except anthropic.APIError as error:
         print(f"Error: the Claude API call failed. Details: {error}")
         return None
