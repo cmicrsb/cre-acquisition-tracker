@@ -68,7 +68,7 @@ def overdue_tasks(tasks):
     for task in tasks:
         if task["due_date"] is not None and task["due_date"] < today and task["status"] != "Done":
             days_late = (today - task["due_date"]).days
-            overdue.append({"name": task["name"], "party": task["party"], "days_late": days_late})
+            overdue.append({"name": task["name"], "party": task["party"], "days_late": days_late, "depends_on": task["depends_on"]})
     return overdue
 
 # CSA-14: upcoming tasks (next 7 days)
@@ -80,7 +80,7 @@ def upcoming_tasks(tasks):
         due = task["due_date"]
         if due is not None and today <= due <= limit and task["status"] != "Done":
             days_left = (due - today).days
-            upcoming.append({"name": task["name"], "party": task["party"], "days_left": days_left})
+            upcoming.append({"name": task["name"], "party": task["party"], "days_left": days_left, "depends_on": task["depends_on"]})
     return upcoming
 
 if __name__ == "__main__":
