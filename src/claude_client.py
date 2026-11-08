@@ -15,13 +15,20 @@ if not api_key:
 
 client = anthropic.Anthropic(api_key=api_key)
 
-# 4. Test call to the Claude API
-try:
-    message = client.messages.create(
-        model="claude-haiku-5-5",
-        max_tokens=100,
-        messages=[{"role": "user", "content": "In one sentence, greet the COO of a commercial real estate company."}],
-    )
-    print(message.content[0].text)
-except anthropic.APIError as error:
-    print(f"Error: the Claude API call failed. Details: {error}")
+
+# 4. Send any prompt to Claude and return the text answer
+def ask_claude(prompt):
+    try:
+        message = client.messages.create(
+            model="claude-haiku-5-5",
+            max_tokens=600,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return message.content[0].text
+    except anthropic.APIError as error:
+        print(f"Error: the Claude API call failed. Details: {error}")
+        return None
+
+
+if __name__ == "__main__":
+    print(ask_claude("In one sentence, greet the COO of a commercial real estate company."))
