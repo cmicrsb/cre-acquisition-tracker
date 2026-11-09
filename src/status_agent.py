@@ -42,7 +42,8 @@ Rules:
 - Use only the data below. Do not invent dates, names, numbers or events.
 - Only mention or imply a dependency between tasks if it is listed as "depends on" in the data. Do not say a task is at risk because of another task unless that dependency is listed in the data.
 - Do not repeat the same fact in more than one bullet or section, except a short mention in the Summary.
-- If there are no overdue tasks, say so in Risks and focus on upcoming deadlines.
+- A phase with 0% done is not the same as "not started". Only say a task has not started if the data says that.
+- Every task already has a responsible party and a due date. Do not suggest assigning owners or deadlines.
 - Executive tone: clear, direct, no filler.
 
 Deal data:
