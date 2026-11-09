@@ -1,10 +1,45 @@
-# CRE Acquisition Tracker | Monday.com
+# CRE Acquisition Tracker | Monday.com + AI Status Agent
 
-A Monday.com workflow for managing a commercial real estate acquisition, built to keep every task owned, every deadline visible, and every delay flagged before it becomes a problem.
+A commercial real estate acquisition workflow in Monday.com, plus a Python agent that turns the board into a weekly executive status for the COO.
 
 - **Built by:** Camila Carrasquilla · 2026
-- **Tool:** Monday.com (Work Management, Pro features)
+- **Tools:** Monday.com · Python · Claude API · Jira (Scrum)
 - **Deal (fictional):** Pepper & Pine Logistics Park, a $6.4M industrial property
+
+## In 3 minutes
+
+**The problem:** The board has all the data, but the COO doesn't have time to review 18 tasks to find what matters. Someone has to dig through it every week and write the status update by hand.
+
+**The solution:** I built a Python agent that reads the Monday CSV export, flags overdue and upcoming tasks, and uses the Claude API to draft a weekly executive status.
+
+**The result:** Every week, the COO gets a short status with a summary, risks, and next steps, returned as validated JSON.
+
+<details>
+<summary><b>Sample output (real run)</b></summary>
+
+```json
+{
+  "summary": "LOI is 50% complete (2 of 4 tasks). Due Diligence, Financing, and Closing have no completed tasks yet. Seven tasks are overdue, led by the Purchase & Sale Agreement (PSA), now 17 days late. Two downstream tasks depend on the PSA, so its execution is the priority.",
+  "risks": [
+    "The PSA is 17 days late. The earnest money deposit (10 days late) and the title commitment (4 days late) both depend on it.",
+    "The loan application & financials are 5 days late. The appraisal, due in 2 days, depends on that submission and is at risk of slipping.",
+    "The Phase I Environmental Site Assessment and property condition assessment are each 6 days late, and the ALTA survey is 2 days late, which puts the diligence schedule behind.",
+    "Financing and Closing have no completed tasks, and the overdue loan application sits with the Lender."
+  ],
+  "next_steps": [
+    "Escalate PSA execution with the Attorney to clear the first dependency.",
+    "Confirm the loan application & financials submission status with the Lender to protect the appraisal order.",
+    "Place the Phase I ESA and property condition assessment orders with the Internal Team.",
+    "Follow up with the Title Company on the ALTA survey and, once the PSA is signed, the title commitment.",
+    "Monitor the Attorney's lease and tenant estoppel review, due in 5 days."
+  ]
+}
+```
+</details>
+
+---
+
+# Part 1: The Monday.com workflow
 
 ![Board overview](screenshots/01-board.png)
 
