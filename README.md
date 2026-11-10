@@ -135,6 +135,40 @@ A few issues I caught and fixed while testing:
 
 ---
 
+# Part 2: The AI status agent
+
+## How it works
+
+```
+Monday CSV export → read_monday.py → status_agent.py → claude_client.py → validated JSON
+```
+
+1. **Read and clean** (`read_monday.py`): loads the CSV export, skips title, phase, header, and empty rows, and keeps the 18 tasks with their phase, status, due date, responsible party, and dependencies.
+2. **Calculate the facts** (`read_monday.py`): progress by phase, overdue tasks (due before today and not Done), and upcoming tasks (due in the next 7 days, today included).
+3. **Draft the status** (`status_agent.py` + `claude_client.py`): sends only those facts to the Claude API, with rules to stay grounded in the data.
+4. **Validate** (`status_agent.py`): checks that the answer is valid JSON with `summary` (a string), `risks`, and `next_steps` (lists). If not, it shows a clear error instead of crashing.
+
+---
+
+## Design decisions
+
+### 1. Python calculates, Claude writes
+Python counts progress, finds overdue and upcoming tasks, and sends only those facts to Claude. Math in code is exact and repeatable. A language model can get a number wrong and still sound confident. Claude's job is to turn the facts into a clear status, not to decide what the facts are.
+
+### 2. Validate types, not just keys
+At first I only checked that `summary`, `risks`, and `next_steps` existed. Then, in testing, indexing a string returned the letter "T" instead of a full sentence: no crash, just wrong output (a silent bug). Now the agent also checks types (`summary` is a string, `risks` and `next_steps` are lists) and stops with a clear message if anything doesn't match.
+
+### 3. Ground Claude in the data
+During QA, Claude wrote that a task was at risk "given the PSA delay," even though no dependency was listed. It sounded plausible, but it was invented. I sent the board's `depends_on` column to Claude and added a rule: only mention or imply a dependency if it's in the data. I used the same approach for later defects (saying a phase "had not started" when one of its tasks was in progress, and suggesting owners that already existed), and re-tested each fix with 2 runs.
+
+### 4. Warn, don't auto-fix
+If the CSV has a status the script doesn't recognize, it prints a warning instead of guessing. An automatic fix would hide the problem. A warning lets a person decide.
+
+### 5. The agent drafts, a human reviews
+The output can vary between runs, so the status is a draft, not a final report. A person reviews it before it goes to the COO, and that review needs time built in before the deadline.
+
+---
+
 ## What I'd add next
 
 - An AI agent that posts a weekly deal summary for leadership
