@@ -169,9 +169,77 @@ The output can vary between runs, so the status is a draft, not a final report. 
 
 ---
 
+## QA: what I tested and what broke
+
+I tested each feature on purpose: I predicted the result, ran it, and broke it to see how it fails.
+
+| Test | What I did | Expected | Result |
+|---|---|---|---|
+| Missing API key | Commented out the key in `.env` | Clear error, no crash | ✅ |
+| Invalid API key | Used a wrong key | API error handled (401) | ✅ |
+| Not JSON | Claude's answer as plain text | "Did not return valid JSON" | ✅ |
+| Missing key | Removed `next_steps` | "Missing key" error | ✅ |
+| Wrong type | `risks` as a string | "Should be a list" error | ✅ |
+| Empty phase | Added a phase with 0 tasks | 0%, no crash | ✅ after fix |
+| No overdue tasks | Simulated an empty overdue list | Risks says so, focuses on upcoming | ✅ |
+
+### Bugs I found and fixed
+
+- **Empty phase crashed the script** (`ZeroDivisionError`). A phase with 0 tasks meant dividing by zero. Fix: if a phase has no tasks, it shows 0%.
+- **Counters in the wrong place.** With the counters outside the loop, each phase kept adding to the previous one (11, 15, 18 tasks). Moving them inside the loop fixed it.
+- **A task due today showed as "0 days late."** I tested `<=` instead of `!=` on purpose; the bug was easy to miss by eye, which is why I check the output against the data, not just whether it runs.
+- **Claude's answer wasn't always text first.** The code assumed the first block was text and crashed (`AttributeError`). Now it loops through the blocks and returns the first text block.
+- **The response was cut off.** With a low token limit, Claude used all of it before writing the answer. I found it by printing the `stop_reason`, then raised the limit.
+- **Repeated and invented risks.** Covered in Design decisions 2 and 3. Every prompt fix was re-tested with 2 runs, plus a regression check on earlier fixes.
+
+---
+
+## Known limitations
+
+- **The output varies between runs.** Sometimes Claude adds a speculative or repeated risk. That's why the status is a draft for human review.
+- **It reads a CSV export, not live data.** The agent doesn't connect to the Monday API; someone has to export the board first.
+- **Type checks stop at the list.** The agent checks that `risks` is a list, but not that every item inside it is a string.
+- **Small wording issues:** the reports say "1 days late" instead of "1 day late," and the message "Check the error above" can show up even when there was no API error.
+- **The results depend on today's date.** Overdue and upcoming tasks are calculated with `date.today()`, so the same CSV gives a different report every day. That's by design, but it means the sample above won't match a new run.
+- **The deal data is fictional.**
+
+---
+
+## How to run
+
+You need Python 3 and a Claude API key.
+
+1. Clone the repo and go to the project folder:
+   ```
+   git clone https://github.com/cmicrsb/cre-acquisition-tracker.git
+   cd cre-acquisition-tracker
+   ```
+2. Install the dependencies:
+   ```
+   python3 -m pip install -r requirements.txt
+   ```
+3. Create a `.env` file in the project folder with your key:
+   ```
+   ANTHROPIC_API_KEY=your-key-here
+   ```
+4. Run the agent:
+   ```
+   python3 src/status_agent.py
+   ```
+
+Run it from the project folder, not from `src/`, because the script reads `data/monday_export.csv` with a relative path.
+
+To see only the calculated facts (progress, overdue and upcoming tasks) without calling Claude:
+```
+python3 src/read_monday.py
+```
+
+---
+
 ## What I'd add next
 
-- An AI agent that posts a weekly deal summary for leadership
+- Send the weekly status automatically (for example, by email or Slack) instead of running the script by hand
+- Read the board directly from the Monday API instead of a CSV export
 - A separate board view per external party, so attorneys or lenders could be given limited guest access to only their tasks
 - A reusable template, so the next acquisition starts from a proven playbook instead of a blank board
 
